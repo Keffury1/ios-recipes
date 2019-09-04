@@ -24,6 +24,8 @@ class RecipeDetailViewController: UIViewController {
     }
     
     
+    // MARK: - View
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
