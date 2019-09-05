@@ -43,11 +43,12 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         
         networkClient.fetchRecipes { (recipes, error) in
-            // NOT SURE IF I DID THIS RIGHT
-            if error != nil {
-                NSLog("Error loading recipe data: \(String(describing: error))")
+            if let error = error {
+                print("Error loading recipes: \(error)")
                 return
-            } else {
+            }
+            
+            DispatchQueue.main.async {
                 self.allRecipes = recipes ?? []
             }
         }
@@ -73,12 +74,13 @@ class MainViewController: UIViewController {
     }
 
     
-     MARK: - Navigation
+     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "TableViewControllerEmbedSegue" {
-            let tableVC = segue.destination as? RecipesTableViewController {
+            if let tableVC = segue.destination as? RecipesTableViewController {
                 // NEED TO SET THE SUBCLASS?
+                self.recipesTableViewController = tableVC
             }
         }
     }
