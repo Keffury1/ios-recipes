@@ -79,7 +79,6 @@ class MainViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "TableViewControllerEmbedSegue" {
             if let tableVC = segue.destination as? RecipesTableViewController {
-                // NEED TO SET THE SUBCLASS?
                 self.recipesTableViewController = tableVC
             }
         }

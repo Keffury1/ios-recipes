@@ -50,8 +50,7 @@ class RecipesTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detailViewControllerSegue" {
             if let recipeDetailVC = segue.destination as? RecipeDetailViewController {
-                // NEED TO FIGURE OUT HOW TO GET THE SPECIFIC RECIPE THAT WAS TAPPED
-                recipeDetailVC.recipe = recipes[0]
+                // NEED TO USE INDEX PATH AND INDEXPATHFORSELECTEDROW
             }
         }
     }
