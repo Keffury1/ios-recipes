@@ -16,13 +16,25 @@ class MainViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let networkClient = RecipesNetworkClient()
+    let networkClient = RecipesNetworkClient()
     
-    private var allRecipes: [Recipe] = []
+    var allRecipes: [Recipe] = [] {
+        didSet {
+            filterRecipes()
+        }
+    }
     
-    private var recipesTableViewController: RecipesTableViewController?
+    var recipesTableViewController: RecipesTableViewController? {
+        didSet {
+            recipesTableViewController?.recipes = self.filteredRecipes
+        }
+    }
     
-    private var filteredRecipes: [Recipe] = []
+    var filteredRecipes: [Recipe] = [] {
+        didSet {
+            recipesTableViewController?.recipes = self.filteredRecipes
+        }
+    }
     
     
     // MARK: - View
@@ -50,31 +62,33 @@ class MainViewController: UIViewController {
             return
         }
         
-        allRecipes.filter { (recipe) -> Bool in
+        filteredRecipes = allRecipes.filter { (recipe) -> Bool in
             return recipe.name == searchTerm
         }
         
-        allRecipes.filter { (recipe) -> Bool in
+        filteredRecipes = allRecipes.filter { (recipe) -> Bool in
             return recipe.instructions == searchTerm
         }
+        
     }
 
     
-    // MARK: - Navigation
+     MARK: - Navigation
 
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "TableViewControllerEmbedSegue" {
-//            let tableVC = segue.destination as? RecipesTableViewController {
-//                // NEED TO SET THE SUBCLASS?
-//            }
-//        }
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "TableViewControllerEmbedSegue" {
+            let tableVC = segue.destination as? RecipesTableViewController {
+                // NEED TO SET THE SUBCLASS?
+            }
+        }
+    }
     
     
     // MARK: - Actions
     
     @IBAction func searchTextField(_ sender: Any) {
-        
+        resignFirstResponder()
+        filterRecipes()
     }
     
 
