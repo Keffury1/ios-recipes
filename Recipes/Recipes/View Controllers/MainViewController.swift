@@ -44,10 +44,10 @@ class MainViewController: UIViewController {
         
         networkClient.fetchRecipes { (recipes, error) in
             if let error = error {
-                print("Error loading recipes: \(error)")
+                NSLog("Error loading students: \(error)")
                 return
             }
-            
+           
             DispatchQueue.main.async {
                 self.allRecipes = recipes ?? []
             }
@@ -58,7 +58,7 @@ class MainViewController: UIViewController {
     // MARK: - Methods
     
     func filterRecipes() {
-        guard let searchTerm = searchTextField.text, searchTextField != nil else {
+        guard let searchTerm = searchTextField.text, searchTextField.text != nil else {
             filteredRecipes = allRecipes
             return
         }
@@ -79,6 +79,7 @@ class MainViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "TableViewControllerEmbedSegue" {
             if let tableVC = segue.destination as? RecipesTableViewController {
+                // UNSURE HOW TO SET THE SUBCLASS HERE
                 self.recipesTableViewController = tableVC
             }
         }

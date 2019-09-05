@@ -14,7 +14,7 @@ class RecipesTableViewController: UITableViewController {
     
     var recipes: [Recipe] = [] {
         didSet {
-            reloadInputViews()
+            tableView.reloadData()
         }
     }
  
@@ -49,8 +49,9 @@ class RecipesTableViewController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detailViewControllerSegue" {
-            if let recipeDetailVC = segue.destination as? RecipeDetailViewController {
-                // NEED TO USE INDEX PATH AND INDEXPATHFORSELECTEDROW
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+            let recipeDetailVC = segue.destination as? RecipeDetailViewController
+                recipeDetailVC?.recipe = recipes[indexPath.row]
             }
         }
     }
