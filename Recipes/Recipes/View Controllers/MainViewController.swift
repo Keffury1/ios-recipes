@@ -24,15 +24,14 @@ class MainViewController: UIViewController {
         }
     }
     
-    var recipesTableViewController: RecipesTableViewController? {
-        didSet {
-            recipesTableViewController?.recipes = self.filteredRecipes
-        }
-    }
+    var recipesTableViewController: RecipesTableViewController? 
+    
+    
     
     var filteredRecipes: [Recipe] = [] {
         didSet {
             recipesTableViewController?.recipes = self.filteredRecipes
+            recipesTableViewController?.tableView.reloadData()
         }
     }
     
@@ -48,9 +47,8 @@ class MainViewController: UIViewController {
                 return
             }
            
-            DispatchQueue.main.async {
-                self.allRecipes = recipes ?? []
-            }
+            self.allRecipes = recipes ?? []
+            
         }
 
     }
@@ -58,17 +56,16 @@ class MainViewController: UIViewController {
     // MARK: - Methods
     
     func filterRecipes() {
-        guard let searchTerm = searchTextField.text, searchTextField.text != nil else {
-            filteredRecipes = allRecipes
-            return
-        }
-        
-        filteredRecipes = allRecipes.filter { (recipe) -> Bool in
-            return recipe.name == searchTerm
-        }
-        
-        filteredRecipes = allRecipes.filter { (recipe) -> Bool in
-            return recipe.instructions == searchTerm
+        DispatchQueue.main.async {
+            
+            guard let enteredText = self.searchTextField.text,
+                !enteredText.isEmpty else {
+                    self.filteredRecipes = self.allRecipes
+                    return }
+            
+            self.filteredRecipes = self.allRecipes.filter { ($0.name.range(of: enteredText, options: .caseInsensitive) != nil) || ($0.instructions.range(of: enteredText, options: .caseInsensitive) != nil)}
+            
+            
         }
         
     }
@@ -79,8 +76,8 @@ class MainViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "TableViewControllerEmbedSegue" {
             if let tableVC = segue.destination as? RecipesTableViewController {
-                // UNSURE HOW TO SET THE SUBCLASS HERE
-                self.recipesTableViewController = tableVC
+                recipesTableViewController = tableVC
+               
             }
         }
     }

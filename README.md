@@ -79,7 +79,6 @@ Since this table view controller is embedded in the `MainViewController`, it wil
 3. In the `viewDidLoad`, call the `networkClient`'s `fetchRecipes` method. In its completion closure, if there is an error, NSLog it, and return from the function. If there is no error, set the value of `allRecipes` to recipes returned in this completion closure.
 4. Create a variable `recipesTableViewController: RecipesTableViewController?`. Later, we will make it hold a reference to the embedded table view controller.
 
-// giving me some trouble.
 5. In the `prepare(for segue: ...)`, check for the embed segue's identifier. If it is, set the `recipesTableViewController` variable to the segue's `destination`. You will need to cast the view controller as the correct subclass.
 6. Create a variable `filteredRecipes: [Recipe] = []`. 
 

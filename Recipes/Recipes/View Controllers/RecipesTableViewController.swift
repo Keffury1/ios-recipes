@@ -23,7 +23,8 @@ class RecipesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        print(recipes)
     }
 
     // MARK: - Table view data source
