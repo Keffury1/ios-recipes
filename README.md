@@ -78,8 +78,11 @@ Since this table view controller is embedded in the `MainViewController`, it wil
 2. Create a variable `allRecipes: [Recipe] = []`.
 3. In the `viewDidLoad`, call the `networkClient`'s `fetchRecipes` method. In its completion closure, if there is an error, NSLog it, and return from the function. If there is no error, set the value of `allRecipes` to recipes returned in this completion closure.
 4. Create a variable `recipesTableViewController: RecipesTableViewController?`. Later, we will make it hold a reference to the embedded table view controller.
+
+
 5. In the `prepare(for segue: ...)`, check for the embed segue's identifier. If it is, set the `recipesTableViewController` variable to the segue's `destination`. You will need to cast the view controller as the correct subclass.
 6. Create a variable `filteredRecipes: [Recipe] = []`. 
+
 7. Create a function called `filterRecipes()`. This will take the text from the text field and filter the recipes with it. In the function:
     - Unwrap the search term and make sure it isn't an empty string. If search term is empty or nil, set the value of `filteredRecipes` to `allRecipes`. If there is no search term, that means you should display all of the recipes.
     - If there is a non-empty search term in the text field, using the `filter` higher-order function to filter the `allRecipes` array. It should filter by checking if the recipe's `name` or `instructions` contains the search term. Set the value of the `filteredRecipes` to the result of the `filter` method.

@@ -10,28 +10,73 @@ import UIKit
 
 class MainViewController: UIViewController {
     
+    // MARK: - Outlets
+    
     @IBOutlet weak var searchTextField: UITextField!
     
+    // MARK: - Properties
+    
+    private let networkClient = RecipesNetworkClient()
+    
+    private var allRecipes: [Recipe] = []
+    
+    private var recipesTableViewController: RecipesTableViewController?
+    
+    private var filteredRecipes: [Recipe] = []
+    
+    
+    // MARK: - View
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        networkClient.fetchRecipes { (recipes, error) in
+            // NOT SURE IF I DID THIS RIGHT
+            if error != nil {
+                NSLog("Error loading recipe data: \(String(describing: error))")
+                return
+            } else {
+                self.allRecipes = recipes ?? []
+            }
+        }
 
-        // Do any additional setup after loading the view.
     }
     
+    // MARK: - Methods
+    
+    func filterRecipes() {
+        guard let searchTerm = searchTextField.text, searchTextField != nil else {
+            filteredRecipes = allRecipes
+            return
+        }
+        
+        allRecipes.filter { (recipe) -> Bool in
+            return recipe.name == searchTerm
+        }
+        
+        allRecipes.filter { (recipe) -> Bool in
+            return recipe.instructions == searchTerm
+        }
+    }
 
-    /*
+    
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "TableViewControllerEmbedSegue" {
+//            let tableVC = segue.destination as? RecipesTableViewController {
+//                // NEED TO SET THE SUBCLASS?
+//            }
+//        }
+//    }
+    
+    
+    // MARK: - Actions
     
     @IBAction func searchTextField(_ sender: Any) {
+        
     }
     
 
 }
+
